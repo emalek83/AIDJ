@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AIDJ — Session Director</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ee;
+    --cream: #ede8e0;
+    --accent: #e8583a;
+    --accent2: #c9a96e;
+    --muted: #6b6560;
+    --card: #141414;
+    --border: rgba(245,242,238,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  .app {
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER */
+  .header {
+    padding: 48px 24px 24px;
+    position: relative;
+  }
+
+  .header-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--accent2);
+  }
+
+  .header-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  /* SPOTIFY STATUS */
+  .spotify-bar {
+    margin: 0 24px 28px;
+    padding: 14px 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .spotify-bar:hover { border-color: rgba(245,242,238,0.25); }
+
+  .spotify-bar.connected { border-color: rgba(29,185,84,0.4); }
+
+  .spotify-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .spotify-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .spotify-dot.connected {
+    background: #1db954;
+    box-shadow: 0 0 8px rgba(29,185,84,0.6);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .spotify-text {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .spotify-text.connected { color: #1db954; }
+
+  .spotify-action {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* SECTION */
+  .section {
+    padding: 0 24px;
+    margin-bottom: 28px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  /* DURATION SELECTOR */
+  .duration-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .duration-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--muted);
+  }
+
+  .duration-btn:hover { border-color: rgba(245,242,238,0.2); color: var(--white); }
+
+  .duration-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--white);
+  }
+
+  .duration-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    display: block;
+    line-height: 1;
+  }
+
+  .duration-unit {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+    opacity: 0.7;
+  }
+
+  /* ENERGY PROFILES */
+  .profile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .profile-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .profile-card:hover { border-color: rgba(245,242,238,0.2); }
+
+  .profile-card.active {
+    border-color: var(--accent2);
+    background: rgba(201,169,110,0.08);
+  }
+
+  .profile-arc {
+    width: 52px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .profile-info { flex: 1; }
+
+  .profile-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+  }
+
+  .profile-desc {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+
+  .profile-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .profile-card.active .profile-check {
+    background: var(--accent2);
+    border-color: var(--accent2);
+  }
+
+  .profile-check::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--white);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .profile-card.active .profile-check::after { opacity: 1; }
+
+  /* CLOSER TRACK */
+  .closer-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .closer-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(232,88,58,0.15);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .closer-info { flex: 1; }
+
+  .closer-track {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .closer-artist {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .closer-lock {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.8;
+  }
+
+  /* ARC PREVIEW */
+  .arc-preview {
+    margin: 0 24px 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+
+  .arc-preview-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .arc-svg-wrap { margin-bottom: 14px; }
+
+  .phase-pills {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .phase-pill {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(245,242,238,0.06);
+    color: var(--muted);
+  }
+
+  /* GENERATE BUTTON */
+  .generate-wrap {
+    padding: 0 24px 48px;
+  }
+
+  .generate-btn {
+    width: 100%;
+    padding: 20px;
+    background: var(--accent);
+    border: none;
+    border-radius: 14px;
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .generate-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .generate-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(232,88,58,0.35); }
+  .generate-btn:active { transform: translateY(0); }
+  .generate-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .generate-btn .btn-sub {
+    display: block;
+    font-size: 9px;
+    opacity: 0.7;
+    margin-top: 4px;
+    letter-spacing: 0.15em;
+  }
+
+  /* SESSION VIEW */
+  .session-view {
+    display: none;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .session-view.active { display: flex; }
+
+  .session-header {
+    padding: 48px 24px 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .session-phase-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .session-phase-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .session-time {
+    text-align: right;
+  }
+
+  .session-time-big {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .session-time-label {
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Timeline */
+  .timeline-wrap {
+    padding: 0 24px;
+    margin-bottom: 24px;
+  }
+
+  .timeline-bar {
+    height: 4px;
+    background: rgba(245,242,238,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .timeline-progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 2px;
+    transition: width 1s linear;
+  }
+
+  .timeline-phases {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .timeline-phase-tick {
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .timeline-phase-tick.active { color: var(--accent2); }
+
+  /* Now playing */
+  .now-playing {
+    margin: 0 24px 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+
+  .np-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .np-track {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .np-artist {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+  }
+
+  .np-meta {
+    display: flex;
+    gap: 16px;
+  }
+
+  .np-meta-item {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .np-meta-item span {
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  /* Controls */
+  .controls {
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .ctrl-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--white);
+  }
+
+  .ctrl-btn:hover { border-color: rgba(245,242,238,0.25); }
+  .ctrl-btn:active { transform: scale(0.97); }
+
+  .ctrl-btn.boost:hover { border-color: var(--accent); }
+  .ctrl-btn.drop:hover { border-color: var(--accent2); }
+  .ctrl-btn.skip:hover { border-color: rgba(245,242,238,0.4); }
+
+  .ctrl-icon { font-size: 22px; margin-bottom: 6px; }
+
+  .ctrl-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Closer locked */
+  .closer-locked {
+    margin: 0 24px 24px;
+    padding: 12px 16px;
+    background: rgba(232,88,58,0.08);
+    border: 1px solid rgba(232,88,58,0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .closer-locked-icon { font-size: 14px; }
+
+  .closer-locked-text {
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    opacity: 0.9;
+  }
+
+  /* Queue */
+  .queue-section {
+    padding: 0 24px 48px;
+  }
+
+  .queue-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .queue-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .queue-num {
+    font-size: 10px;
+    color: var(--muted);
+    width: 16px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .queue-info { flex: 1; }
+
+  .queue-track {
+    font-size: 12px;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .queue-artist {
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .queue-bpm {
+    font-size: 10px;
+    color: var(--accent2);
+    flex-shrink: 0;
+  }
+
+  /* Loading overlay */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .loading-overlay.active { display: flex; }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .loading-subtext {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--white);
+    text-align: center;
+    padding: 0 40px;
+    line-height: 1.3;
+  }
+
+  /* Auth screen */
+  .auth-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .auth-screen.active { display: flex; }
+
+  .auth-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .auth-logo em { font-style: italic; color: var(--accent); }
+
+  .auth-tagline {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 48px;
+  }
+
+  .auth-btn {
+    padding: 18px 40px;
+    background: #1db954;
+    border: none;
+    border-radius: 50px;
+    color: #000;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .auth-btn:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(29,185,84,0.3); }
+
+  .auth-note {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 20px;
+    line-height: 1.6;
+    max-width: 280px;
+  }
+
+  /* Setup view */
+  .setup-view { display: flex; flex-direction: column; }
+  .setup-view.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-logo">AI<em>DJ</em></div>
+  <div class="auth-tagline">Session Director — Dance It Out</div>
+  <button class="auth-btn" onclick="connectSpotify()">Connect Spotify</button>
+  <p class="auth-note">Connect your Spotify Premium account to generate session playlists based on your arc.</p>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Building your arc</div>
+  <div class="loading-subtext" id="loadingMsg">Analysing BPM targets for each phase...</div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="mainApp">
+
+  <!-- SETUP VIEW -->
+  <div class="setup-view" id="setupView">
+
+    <div class="header">
+      <div class="header-label">Dance It Out — Zürich</div>
+      <h1>AI<em>DJ</em></h1>
+      <div class="header-sub">Session Director / v1.0</div>
+    </div>
+
+    <!-- Spotify status -->
+    <div class="spotify-bar" id="spotifyBar" onclick="handleSpotifyClick()">
+      <div class="spotify-left">
+        <div class="spotify-dot" id="spotifyDot"></div>
+        <div class="spotify-text" id="spotifyText">Not connected</div>
+      </div>
+      <div class="spotify-action" id="spotifyAction">Connect →</div>
+    </div>
+
+    <!-- Duration -->
+    <div class="section">
+      <div class="section-label">Session Duration</div>
+      <div class="duration-grid">
+        <div class="duration-btn" onclick="selectDuration(45, this)">
+          <span class="duration-num">45</span>
+          <span class="duration-unit">min</span>
+        </div>
+        <div class="duration-btn active" onclick="selectDuration(60, this)">
+          <span class="duration-num">60</span>
+          <span class="duration-unit">min</span>
+        </div>
+        <div class="duration-btn" onclick="selectDuration(75, this)">
+          <span class="duration-num">75</span>
+          <span class="duration-unit">min</span>
+        </div>
+        <div class="duration-btn" onclick="selectDuration(90, this)">
+          <span class="duration-num">90</span>
+          <span class="duration-unit">min</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Energy Profile -->
+    <div class="section">
+      <div class="section-label">Energy Profile</div>
+      <div class="profile-list">
+
+        <div class="profile-card active" onclick="selectProfile('steady', this)">
+          <svg class="profile-arc" viewBox="0 0 52 28">
+            <polyline points="2,24 13,18 26,10 39,8 50,12" fill="none" stroke="#e8583a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="profile-info">
+            <div class="profile-name">Steady Build</div>
+            <div class="profile-desc">Gradual climb, single peak, long landing</div>
+          </div>
+          <div class="profile-check"></div>
+        </div>
+
+        <div class="profile-card" onclick="selectProfile('hard', this)">
+          <svg class="profile-arc" viewBox="0 0 52 28">
+            <polyline points="2,24 8,14 18,6 32,5 40,8 50,18" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="profile-info">
+            <div class="profile-name">Hard Peak</div>
+            <div class="profile-desc">Fast warmup, sustained peak, sharp comedown</div>
+          </div>
+          <div class="profile-check"></div>
+        </div>
+
+        <div class="profile-card" onclick="selectProfile('double', this)">
+          <svg class="profile-arc" viewBox="0 0 52 28">
+            <polyline points="2,24 10,14 20,7 28,14 36,6 46,10 50,16" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="profile-info">
+            <div class="profile-name">Double Peak</div>
+            <div class="profile-desc">Two peak moments with a mid-session valley</div>
+          </div>
+          <div class="profile-check"></div>
+        </div>
+
+        <div class="profile-card" onclick="selectProfile('gentle', this)">
+          <svg class="profile-arc" viewBox="0 0 52 28">
+            <polyline points="2,22 14,16 26,12 38,13 50,18" fill="none" stroke="#6b6560" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="profile-info">
+            <div class="profile-name">Gentle Flow</div>
+            <div class="profile-desc">Moderate ceiling, extended grounding close</div>
+          </div>
+          <div class="profile-check"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Closer track -->
+    <div class="section">
+      <div class="section-label">Session Closer</div>
+      <div class="closer-card">
+        <div class="closer-icon">🔒</div>
+        <div class="closer-info">
+          <div class="closer-track">Dancing On My Own</div>
+          <div class="closer-artist">Robyn</div>
+        </div>
+        <div class="closer-lock">Locked</div>
+      </div>
+    </div>
+
+    <!-- Arc preview -->
+    <div class="arc-preview">
+      <div class="arc-preview-label">Session Arc Preview</div>
+      <div class="arc-svg-wrap">
+        <svg id="arcPreviewSvg" viewBox="0 0 382 60" width="100%" height="60">
+          <defs>
+            <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#c9a96e;stop-opacity:0.6"/>
+              <stop offset="50%" style="stop-color:#e8583a;stop-opacity:1"/>
+              <stop offset="100%" style="stop-color:#c9a96e;stop-opacity:0.8"/>
+            </linearGradient>
+          </defs>
+          <polyline id="arcLine" points="0,52 55,40 110,22 165,14 220,16 275,30 330,42 382,50"
+            fill="none" stroke="url(#arcGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="phase-pills" id="phasePills">
+        <div class="phase-pill">Arrival</div>
+        <div class="phase-pill">Warmup</div>
+        <div class="phase-pill">Build</div>
+        <div class="phase-pill">Peak</div>
+        <div class="phase-pill">Comedown</div>
+        <div class="phase-pill">Landing</div>
+        <div class="phase-pill">✦ Closer</div>
+      </div>
+    </div>
+
+    <!-- Generate -->
+    <div class="generate-wrap">
+      <button class="generate-btn" id="generateBtn" onclick="generateSession()">
+        Generate Session
+        <span class="btn-sub" id="generateSub">60 min · Steady Build · 7 phases</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- SESSION VIEW -->
+  <div class="session-view" id="sessionView">
+
+    <div class="session-header">
+      <div>
+        <div class="session-phase-label" id="sPhaseLabel">Phase 1 of 7</div>
+        <div class="session-phase-name" id="sPhaseName">Arrival</div>
+      </div>
+      <div class="session-time">
+        <div class="session-time-big" id="sTimeRemain">60:00</div>
+        <div class="session-time-label">remaining</div>
+      </div>
+    </div>
+
+    <div class="timeline-wrap">
+      <div class="timeline-bar">
+        <div class="timeline-progress" id="sProgress" style="width: 0%"></div>
+      </div>
+      <div class="timeline-phases" id="sPhaseRow"></div>
+    </div>
+
+    <div class="now-playing">
+      <div class="np-label">Now Playing</div>
+      <div class="np-track" id="sTrack">—</div>
+      <div class="np-artist" id="sArtist">—</div>
+      <div class="np-meta">
+        <div class="np-meta-item">BPM <span id="sBpm">—</span></div>
+        <div class="np-meta-item">Phase <span id="sPhaseShort">—</span></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl-btn drop" onclick="adjustEnergy(-1)">
+        <div class="ctrl-icon">↓</div>
+        <div class="ctrl-label">Drop</div>
+      </div>
+      <div class="ctrl-btn skip" onclick="skipTrack()">
+        <div class="ctrl-icon">↷</div>
+        <div class="ctrl-label">Skip</div>
+      </div>
+      <div class="ctrl-btn boost" onclick="adjustEnergy(1)">
+        <div class="ctrl-icon">↑</div>
+        <div class="ctrl-label">Boost</div>
+      </div>
+    </div>
+
+    <div class="closer-locked">
+      <div class="closer-locked-icon">🔒</div>
+      <div class="closer-locked-text">Dancing On My Own — Robyn · Session Closer Locked</div>
+    </div>
+
+    <div class="queue-section">
+      <div class="queue-label">Up Next</div>
+      <div id="queueList"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const CLIENT_ID = '10090da0d7fc489db69880325451c31d';
+const REDIRECT_URI = 'https://aidj-three.vercel.app';
+const SCOPES = 'playlist-modify-public playlist-modify-private user-read-private';
+
+let state = {
+  duration: 60,
+  profile: 'steady',
+  accessToken: null,
+  session: null,
+  currentTrackIdx: 0,
+  sessionStartTime: null,
+  timerInterval: null
+};
+
+// PKCE helpers
+function generateRandomString(length) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  const randomValues = crypto.getRandomValues(new Uint8Array(length));
+  randomValues.forEach(v => result += chars[v % chars.length]);
+  return result;
+}
+
+async function generateCodeChallenge(verifier) {
+  const data = new TextEncoder().encode(verifier);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return btoa(String.fromCharCode(...new Uint8Array(digest)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
+async function connectSpotify() {
+  const verifier = generateRandomString(64);
+  const challenge = await generateCodeChallenge(verifier);
+  localStorage.setItem('aidj_verifier', verifier);
+  const params = new URLSearchParams({
+    client_id: CLIENT_ID,
+    response_type: 'code',
+    redirect_uri: REDIRECT_URI,
+    scope: SCOPES,
+    code_challenge_method: 'S256',
+    code_challenge: challenge
+  });
+  window.location.href = `https://accounts.spotify.com/authorize?${params}`;
+}
+
+async function exchangeCodeForToken(code) {
+  const verifier = localStorage.getItem('aidj_verifier');
+  const body = new URLSearchParams({
+    client_id: CLIENT_ID,
+    grant_type: 'authorization_code',
+    code,
+    redirect_uri: REDIRECT_URI,
+    code_verifier: verifier
+  });
+  const res = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body
+  });
+  const data = await res.json();
+  if (data.access_token) {
+    localStorage.setItem('aidj_token', data.access_token);
+    if (data.refresh_token) localStorage.setItem('aidj_refresh', data.refresh_token);
+    state.accessToken = data.access_token;
+    window.history.replaceState({}, document.title, window.location.pathname);
+    updateSpotifyStatus(true);
+  }
+}
+
+// Arc shapes per profile
+const ARC_SHAPES = {
+  steady: "0,52 55,40 110,22 165,14 220,16 275,30 330,42 382,50",
+  hard:   "0,52 45,28 100,10 170,8 230,12 290,28 350,42 382,50",
+  double: "0,52 50,28 110,10 165,24 220,8 280,18 340,36 382,50",
+  gentle: "0,50 65,38 130,28 200,26 265,30 320,38 382,48"
+};
+
+// BPM ranges per phase per profile
+const PHASE_CONFIGS = {
+  steady: [
+    { name: 'Arrival',   bpmMin: 85,  bpmMax: 100, label: 'Arrival',   pct: 0.10 },
+    { name: 'Warmup',    bpmMin: 100, bpmMax: 115, label: 'Warmup',    pct: 0.15 },
+    { name: 'Build',     bpmMin: 115, bpmMax: 126, label: 'Build',     pct: 0.15 },
+    { name: 'Peak',      bpmMin: 126, bpmMax: 138, label: 'Peak',      pct: 0.20 },
+    { name: 'Comedown',  bpmMin: 118, bpmMax: 126, label: 'Comedown',  pct: 0.15 },
+    { name: 'Landing',   bpmMin: 95,  bpmMax: 110, label: 'Landing',   pct: 0.12 },
+    { name: 'Closer',    bpmMin: 120, bpmMax: 120, label: '✦ Close',   pct: 0.13, fixed: true }
+  ],
+  hard: [
+    { name: 'Arrival',   bpmMin: 90,  bpmMax: 105, label: 'Arrival',   pct: 0.08 },
+    { name: 'Warmup',    bpmMin: 108, bpmMax: 120, label: 'Warmup',    pct: 0.12 },
+    { name: 'Build',     bpmMin: 120, bpmMax: 130, label: 'Build',     pct: 0.12 },
+    { name: 'Peak',      bpmMin: 130, bpmMax: 140, label: 'Peak',      pct: 0.25 },
+    { name: 'Comedown',  bpmMin: 118, bpmMax: 128, label: 'Comedown',  pct: 0.12 },
+    { name: 'Landing',   bpmMin: 95,  bpmMax: 108, label: 'Landing',   pct: 0.18 },
+    { name: 'Closer',    bpmMin: 120, bpmMax: 120, label: '✦ Close',   pct: 0.13, fixed: true }
+  ],
+  double: [
+    { name: 'Arrival',   bpmMin: 88,  bpmMax: 100, label: 'Arrival',   pct: 0.08 },
+    { name: 'First Peak',bpmMin: 122, bpmMax: 134, label: 'Peak 1',    pct: 0.18 },
+    { name: 'Valley',    bpmMin: 108, bpmMax: 118, label: 'Valley',    pct: 0.12 },
+    { name: 'Second Peak',bpmMin:128, bpmMax: 140, label: 'Peak 2',    pct: 0.20 },
+    { name: 'Comedown',  bpmMin: 115, bpmMax: 125, label: 'Comedown',  pct: 0.14 },
+    { name: 'Landing',   bpmMin: 92,  bpmMax: 108, label: 'Landing',   pct: 0.15 },
+    { name: 'Closer',    bpmMin: 120, bpmMax: 120, label: '✦ Close',   pct: 0.13, fixed: true }
+  ],
+  gentle: [
+    { name: 'Arrival',   bpmMin: 82,  bpmMax: 95,  label: 'Arrival',   pct: 0.12 },
+    { name: 'Warmup',    bpmMin: 95,  bpmMax: 108, label: 'Warmup',    pct: 0.18 },
+    { name: 'Flow',      bpmMin: 108, bpmMax: 120, label: 'Flow',      pct: 0.22 },
+    { name: 'Crest',     bpmMin: 118, bpmMax: 126, label: 'Crest',     pct: 0.15 },
+    { name: 'Settle',    bpmMin: 100, bpmMax: 112, label: 'Settle',    pct: 0.12 },
+    { name: 'Landing',   bpmMin: 85,  bpmMax: 98,  label: 'Landing',   pct: 0.08 },
+    { name: 'Closer',    bpmMin: 120, bpmMax: 120, label: '✦ Close',   pct: 0.13, fixed: true }
+  ]
+};
+
+// Check for Spotify callback
+async function checkSpotifyCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if (code) {
+    await exchangeCodeForToken(code);
+    return true;
+  }
+  const stored = localStorage.getItem('aidj_token');
+  if (stored) {
+    state.accessToken = stored;
+    updateSpotifyStatus(true);
+    return true;
+  }
+  return false;
+}
+
+function updateSpotifyStatus(connected) {
+  const dot = document.getElementById('spotifyDot');
+  const text = document.getElementById('spotifyText');
+  const action = document.getElementById('spotifyAction');
+  const bar = document.getElementById('spotifyBar');
+  if (connected) {
+    dot.className = 'spotify-dot connected';
+    text.textContent = 'Spotify connected';
+    text.className = 'spotify-text connected';
+    action.textContent = 'Disconnect';
+    bar.className = 'spotify-bar connected';
+  } else {
+    dot.className = 'spotify-dot';
+    text.textContent = 'Not connected';
+    text.className = 'spotify-text';
+    action.textContent = 'Connect →';
+    bar.className = 'spotify-bar';
+  }
+}
+
+function handleSpotifyClick() {
+  if (state.accessToken) {
+    state.accessToken = null;
+    localStorage.removeItem('aidj_token');
+    localStorage.removeItem('aidj_verifier');
+    updateSpotifyStatus(false);
+  } else {
+    connectSpotify();
+  }
+}
+
+function selectDuration(mins, el) {
+  state.duration = mins;
+  document.querySelectorAll('.duration-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  updateGenerateBtn();
+}
+
+function selectProfile(profile, el) {
+  state.profile = profile;
+  document.querySelectorAll('.profile-card').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  updateArcPreview();
+  updateGenerateBtn();
+}
+
+function updateArcPreview() {
+  document.getElementById('arcLine').setAttribute('points', ARC_SHAPES[state.profile]);
+}
+
+function updateGenerateBtn() {
+  const names = { steady: 'Steady Build', hard: 'Hard Peak', double: 'Double Peak', gentle: 'Gentle Flow' };
+  document.getElementById('generateSub').textContent = `${state.duration} min · ${names[state.profile]} · 7 phases`;
+}
+
+async function searchTracksForPhase(phase, token) {
+  const bpmMid = Math.round((phase.bpmMin + phase.bpmMax) / 2);
+
+  if (phase.fixed) {
+    return [{
+      name: "Dancing On My Own",
+      artist: "Robyn",
+      bpm: 120,
+      id: 'robyn_dancing',
+      uri: 'spotify:track:3r0dMEhRNJGHpJpAIUFNPP'
+    }];
+  }
+
+  // Genre tags by phase energy
+  const genres = {
+    'Arrival': 'chill dance',
+    'Warmup': 'pop dance warm',
+    'Build': 'dance pop',
+    'Peak': 'dance electronic',
+    'First Peak': 'dance electronic',
+    'Second Peak': 'dance electronic',
+    'Valley': 'pop dance',
+    'Flow': 'pop dance',
+    'Crest': 'dance pop',
+    'Comedown': 'pop dance',
+    'Settle': 'chill pop',
+    'Landing': 'chill dance',
+  };
+
+  const query = genres[phase.name] || 'dance';
+
+  try {
+    const res = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=50&market=CH`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (!data.tracks || !data.tracks.items) return getFallbackTracks(phase);
+
+    const tracks = data.tracks.items;
+
+    // Get audio features for BPM matching
+    const ids = tracks.map(t => t.id).join(',');
+    const featRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=${ids}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const featData = await featRes.json();
+
+    if (!featData.audio_features) return getFallbackTracks(phase);
+
+    const matched = [];
+    featData.audio_features.forEach((feat, i) => {
+      if (!feat) return;
+      const bpm = feat.tempo;
+      const halfBpm = bpm / 2;
+      const doubleBpm = bpm * 2;
+      const inRange = (b) => b >= phase.bpmMin - 4 && b <= phase.bpmMax + 4;
+      if (inRange(bpm) || inRange(halfBpm) || inRange(doubleBpm)) {
+        const track = tracks[i];
+        matched.push({
+          name: track.name,
+          artist: track.artists[0].name,
+          bpm: Math.round(bpm),
+          id: track.id,
+          uri: track.uri
+        });
+      }
+    });
+
+    return matched.length > 0 ? matched : getFallbackTracks(phase);
+  } catch(e) {
+    return getFallbackTracks(phase);
+  }
+}
+
+function getFallbackTracks(phase) {
+  // Demo fallback tracks with realistic BPMs
+  const fallbacks = [
+    { name: "As It Was", artist: "Harry Styles", bpm: 124 },
+    { name: "Levitating", artist: "Dua Lipa", bpm: 103 },
+    { name: "Don't Start Now", artist: "Dua Lipa", bpm: 124 },
+    { name: "Watermelon Sugar", artist: "Harry Styles", bpm: 95 },
+    { name: "Blinding Lights", artist: "The Weeknd", bpm: 171 },
+    { name: "Physical", artist: "Dua Lipa", bpm: 96 },
+    { name: "Good as Hell", artist: "Lizzo", bpm: 96 },
+    { name: "Juice", artist: "Lizzo", bpm: 95 },
+    { name: "About Damn Time", artist: "Lizzo", bpm: 110 },
+    { name: "Cheap Thrills", artist: "Sia", bpm: 93 },
+    { name: "Unstoppable", artist: "Sia", bpm: 97 },
+    { name: "Titanium", artist: "David Guetta", bpm: 126 },
+    { name: "Without Me", artist: "Eminem", bpm: 86 },
+    { name: "Shake It Off", artist: "Taylor Swift", bpm: 160 },
+    { name: "Anti-Hero", artist: "Taylor Swift", bpm: 97 },
+  ];
+  const mid = (phase.bpmMin + phase.bpmMax) / 2;
+  const closest = fallbacks
+    .map(t => ({ ...t, id: t.name, uri: null, diff: Math.abs(t.bpm - mid) }))
+    .sort((a,b) => a.diff - b.diff)
+    .slice(0, 3);
+  return closest;
+}
+
+async function generateSession() {
+  if (!state.accessToken) {
+    connectSpotify();
+    return;
+  }
+
+  const overlay = document.getElementById('loadingOverlay');
+  const msgs = [
+    'Calculating BPM arc for your session...',
+    'Finding tracks for each phase...',
+    'Matching BPMs to your arc...',
+    'Sequencing phases...',
+    'Locking in the closer...',
+    'Almost ready...'
+  ];
+
+  overlay.classList.add('active');
+  let msgIdx = 0;
+  const msgInterval = setInterval(() => {
+    msgIdx = (msgIdx + 1) % msgs.length;
+    document.getElementById('loadingMsg').textContent = msgs[msgIdx];
+  }, 1200);
+
+  const phases = PHASE_CONFIGS[state.profile];
+  const sessionTracks = [];
+
+  for (const phase of phases) {
+    const tracks = await searchTracksForPhase(phase, state.accessToken);
+    // Pick best track for this phase (first match)
+    if (tracks.length > 0) {
+      sessionTracks.push({ ...tracks[0], phase: phase.name, phaseLabel: phase.label });
+    }
+  }
+
+  clearInterval(msgInterval);
+  overlay.classList.remove('active');
+
+  state.session = {
+    tracks: sessionTracks,
+    phases: phases,
+    duration: state.duration,
+    profile: state.profile
+  };
+
+  state.currentTrackIdx = 0;
+  showSessionView();
+}
+
+function showSessionView() {
+  document.getElementById('setupView').classList.add('hidden');
+  document.getElementById('sessionView').classList.add('active');
+
+  // Build phase row
+  const phases = PHASE_CONFIGS[state.profile];
+  const row = document.getElementById('sPhaseRow');
+  row.innerHTML = phases.map(p => `<div class="timeline-phase-tick">${p.label}</div>`).join('');
+
+  updateSessionDisplay();
+  startTimer();
+}
+
+function updateSessionDisplay() {
+  const { session, currentTrackIdx } = state;
+  if (!session) return;
+
+  const track = session.tracks[currentTrackIdx];
+  if (!track) return;
+
+  document.getElementById('sTrack').textContent = track.name;
+  document.getElementById('sArtist').textContent = track.artist;
+  document.getElementById('sBpm').textContent = track.bpm;
+  document.getElementById('sPhaseShort').textContent = track.phase;
+  document.getElementById('sPhaseName').textContent = track.phase;
+  document.getElementById('sPhaseLabel').textContent = `Phase ${currentTrackIdx + 1} of ${session.tracks.length}`;
+
+  // Progress
+  const pct = (currentTrackIdx / session.tracks.length) * 100;
+  document.getElementById('sProgress').style.width = pct + '%';
+
+  // Phase ticks
+  document.querySelectorAll('.timeline-phase-tick').forEach((el, i) => {
+    el.classList.toggle('active', i === currentTrackIdx);
+  });
+
+  // Queue
+  const queue = document.getElementById('queueList');
+  const upcoming = session.tracks.slice(currentTrackIdx + 1, currentTrackIdx + 5);
+  queue.innerHTML = upcoming.map((t, i) => `
+    <div class="queue-item">
+      <div class="queue-num">${i + 1}</div>
+      <div class="queue-info">
+        <div class="queue-track">${t.name}</div>
+        <div class="queue-artist">${t.artist} · ${t.phase}</div>
+      </div>
+      <div class="queue-bpm">${t.bpm}</div>
+    </div>
+  `).join('');
+}
+
+function skipTrack() {
+  if (state.currentTrackIdx < state.session.tracks.length - 1) {
+    state.currentTrackIdx++;
+    updateSessionDisplay();
+  }
+}
+
+function adjustEnergy(direction) {
+  // Visual feedback only in v1
+  const label = direction > 0 ? '↑ Energy Boosted' : '↓ Energy Dropped';
+  const btn = direction > 0
+    ? document.querySelector('.ctrl-btn.boost')
+    : document.querySelector('.ctrl-btn.drop');
+  const orig = btn.querySelector('.ctrl-label').textContent;
+  btn.querySelector('.ctrl-label').textContent = direction > 0 ? 'Boosted!' : 'Dropped!';
+  setTimeout(() => { btn.querySelector('.ctrl-label').textContent = orig; }, 1000);
+}
+
+function startTimer() {
+  state.sessionStartTime = Date.now();
+  const totalSeconds = state.duration * 60;
+
+  state.timerInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - state.sessionStartTime) / 1000);
+    const remaining = Math.max(0, totalSeconds - elapsed);
+    const mins = Math.floor(remaining / 60);
+    const secs = remaining % 60;
+    document.getElementById('sTimeRemain').textContent =
+      `${mins}:${secs.toString().padStart(2, '0')}`;
+
+    if (remaining === 0) clearInterval(state.timerInterval);
+  }, 1000);
+}
+
+// Init
+checkSpotifyCallback();
+updateGenerateBtn();
+</script>
+</body>
+</html>
