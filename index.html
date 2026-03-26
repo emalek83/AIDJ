@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -22,198 +23,200 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* COMMON */
 .hdr{padding:48px 24px 20px}
-.hdr-tag{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;font-weight:500}
-.hdr h1{font-family:'DM Serif Display',serif;font-size:42px;line-height:1;letter-spacing:-0.02em}
-.hdr h1 em{font-style:italic;color:var(--accent2)}
-.hdr-sub{font-size:11px;color:var(--muted);margin-top:8px;letter-spacing:0.05em}
+.hdr-tag{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(–accent);margin-bottom:8px;font-weight:500}
+.hdr h1{font-family:‘DM Serif Display’,serif;font-size:42px;line-height:1;letter-spacing:-0.02em}
+.hdr h1 em{font-style:italic;color:var(–accent2)}
+.hdr-sub{font-size:11px;color:var(–muted);margin-top:8px;letter-spacing:0.05em}
 .sec{padding:0 24px;margin-bottom:24px}
-.sec-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
-.sec-action{color:var(--accent);cursor:pointer;font-size:9px;letter-spacing:0.15em}
+.sec-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(–muted);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.sec-action{color:var(–accent);cursor:pointer;font-size:9px;letter-spacing:0.15em}
 
 /* BUTTONS */
-.btn-primary{width:100%;padding:20px;background:var(--accent);border:none;border-radius:14px;color:var(--white);font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
-.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent 60%);pointer-events:none}
+.btn-primary{width:100%;padding:20px;background:var(–accent);border:none;border-radius:14px;color:var(–white);font-family:‘DM Mono’,monospace;font-size:12px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
+.btn-primary::before{content:’’;position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent 60%);pointer-events:none}
 .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(232,88,58,0.35)}
 .btn-primary:active{transform:translateY(0)}
 .btn-primary:disabled{opacity:0.4;cursor:not-allowed;transform:none}
 .btn-sub{display:block;font-size:9px;opacity:0.7;margin-top:4px;letter-spacing:0.15em}
-.btn-ghost{width:100%;padding:14px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
-.btn-ghost:hover{border-color:rgba(245,242,238,0.25);color:var(--white)}
+.btn-ghost{width:100%;padding:14px;background:transparent;border:1px solid var(–border);border-radius:10px;color:var(–muted);font-family:‘DM Mono’,monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
+.btn-ghost:hover{border-color:rgba(245,242,238,0.25);color:var(–white)}
 
 /* SPOTIFY BAR */
-.sp-bar{margin:0 24px 24px;padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:border-color 0.2s}
+.sp-bar{margin:0 24px 24px;padding:14px 18px;background:var(–card);border:1px solid var(–border);border-radius:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:border-color 0.2s}
 .sp-bar.connected{border-color:rgba(29,185,84,0.4)}
 .sp-bar.expired{border-color:rgba(232,88,58,0.4)}
 .sp-left{display:flex;align-items:center;gap:12px}
-.sp-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0}
-.sp-dot.on{background:var(--ok);box-shadow:0 0 8px rgba(29,185,84,0.6);animation:pulse 2s infinite}
-.sp-dot.err{background:var(--warn)}
+.sp-dot{width:8px;height:8px;border-radius:50%;background:var(–muted);flex-shrink:0}
+.sp-dot.on{background:var(–ok);box-shadow:0 0 8px rgba(29,185,84,0.6);animation:pulse 2s infinite}
+.sp-dot.err{background:var(–warn)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.sp-text{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
-.sp-text.on{color:var(--ok)}
-.sp-text.err{color:var(--warn)}
-.sp-action{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent)}
+.sp-text{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(–muted)}
+.sp-text.on{color:var(–ok)}
+.sp-text.err{color:var(–warn)}
+.sp-action{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(–accent)}
 
 /* LIBRARY STATUS */
-.lib-card{margin:0 24px 24px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.lib-card{margin:0 24px 24px;background:var(–card);border:1px solid var(–border);border-radius:12px;padding:18px}
 .lib-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.lib-title{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--white)}
-.lib-action{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);cursor:pointer}
+.lib-title{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(–white)}
+.lib-action{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(–accent);cursor:pointer}
 .lib-stats{display:flex;gap:16px}
 .lib-stat{text-align:center}
-.lib-stat-num{font-family:'DM Serif Display',serif;font-size:26px;color:var(--white);line-height:1}
-.lib-stat-num.accent{color:var(--accent2)}
-.lib-stat-label{font-size:9px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}
+.lib-stat-num{font-family:‘DM Serif Display’,serif;font-size:26px;color:var(–white);line-height:1}
+.lib-stat-num.accent{color:var(–accent2)}
+.lib-stat-label{font-size:9px;color:var(–muted);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}
 .lib-progress{margin-top:14px}
 .lib-progress-bar{height:3px;background:rgba(245,242,238,0.08);border-radius:2px;overflow:hidden}
-.lib-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;transition:width 0.3s ease;width:0%}
-.lib-progress-label{font-size:9px;color:var(--muted);letter-spacing:0.06em;margin-top:6px}
-.lib-empty{font-size:11px;color:var(--muted);letter-spacing:0.06em;text-align:center;padding:8px 0}
+.lib-progress-fill{height:100%;background:linear-gradient(90deg,var(–accent2),var(–accent));border-radius:2px;transition:width 0.3s ease;width:0%}
+.lib-progress-label{font-size:9px;color:var(–muted);letter-spacing:0.06em;margin-top:6px}
+.lib-empty{font-size:11px;color:var(–muted);letter-spacing:0.06em;text-align:center;padding:8px 0}
 
 /* DURATION */
 .dur-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.dur-btn{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 6px;text-align:center;cursor:pointer;transition:all 0.15s;color:var(--muted)}
-.dur-btn.active{background:var(--accent);border-color:var(--accent);color:var(--white)}
-.dur-n{font-family:'DM Serif Display',serif;font-size:22px;display:block;line-height:1}
+.dur-btn{background:var(–card);border:1px solid var(–border);border-radius:10px;padding:14px 6px;text-align:center;cursor:pointer;transition:all 0.15s;color:var(–muted)}
+.dur-btn.active{background:var(–accent);border-color:var(–accent);color:var(–white)}
+.dur-n{font-family:‘DM Serif Display’,serif;font-size:22px;display:block;line-height:1}
 .dur-u{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;margin-top:4px;display:block;opacity:0.7}
 
 /* PROFILES */
 .profile-list{display:flex;flex-direction:column;gap:8px}
-.profile-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:16px}
-.profile-card.active{border-color:var(--accent2);background:rgba(201,169,110,0.08)}
+.profile-card{background:var(–card);border:1px solid var(–border);border-radius:12px;padding:16px 18px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:16px}
+.profile-card.active{border-color:var(–accent2);background:rgba(201,169,110,0.08)}
 .profile-arc{width:52px;height:28px;flex-shrink:0}
 .profile-info{flex:1}
-.profile-name{font-size:13px;font-weight:500;color:var(--white);letter-spacing:0.04em;margin-bottom:3px}
-.profile-desc{font-size:10px;color:var(--muted);letter-spacing:0.04em;line-height:1.4}
-.profile-check{width:18px;height:18px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
-.profile-card.active .profile-check{background:var(--accent2);border-color:var(--accent2)}
-.profile-check::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--white);opacity:0;transition:opacity 0.15s}
+.profile-name{font-size:13px;font-weight:500;color:var(–white);letter-spacing:0.04em;margin-bottom:3px}
+.profile-desc{font-size:10px;color:var(–muted);letter-spacing:0.04em;line-height:1.4}
+.profile-check{width:18px;height:18px;border-radius:50%;border:1px solid var(–border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.profile-card.active .profile-check{background:var(–accent2);border-color:var(–accent2)}
+.profile-check::after{content:’’;width:6px;height:6px;border-radius:50%;background:var(–white);opacity:0;transition:opacity 0.15s}
 .profile-card.active .profile-check::after{opacity:1}
 
 /* CLOSER */
-.closer-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px}
+.closer-card{background:var(–card);border:1px solid var(–border);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px}
 .closer-icon{width:36px;height:36px;background:rgba(232,88,58,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .closer-info{flex:1}
-.closer-track{font-family:'DM Serif Display',serif;font-size:14px;color:var(--white);margin-bottom:2px}
-.closer-artist{font-size:10px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase}
-.closer-lock{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);opacity:0.8}
+.closer-track{font-family:‘DM Serif Display’,serif;font-size:14px;color:var(–white);margin-bottom:2px}
+.closer-artist{font-size:10px;color:var(–muted);letter-spacing:0.06em;text-transform:uppercase}
+.closer-lock{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(–accent);opacity:0.8}
 
 /* ARC PREVIEW */
-.arc-box{margin:0 24px 24px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
-.arc-box-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.arc-box{margin:0 24px 24px;background:var(–card);border:1px solid var(–border);border-radius:12px;padding:18px}
+.arc-box-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(–muted);margin-bottom:14px}
 .phase-pills{display:flex;gap:4px;flex-wrap:wrap;margin-top:12px}
-.phase-pill{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(245,242,238,0.06);color:var(--muted)}
+.phase-pill{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(245,242,238,0.06);color:var(–muted)}
 
 /* LOADING OVERLAY */
 .loading-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,10,0.95);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:40px}
 .loading-overlay.active{display:flex}
-.loading-spinner{width:40px;height:40px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
+.loading-spinner{width:40px;height:40px;border:2px solid var(–border);border-top-color:var(–accent);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-title{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted)}
-.loading-msg{font-family:'DM Serif Display',serif;font-size:20px;color:var(--white);text-align:center;line-height:1.3}
-.loading-sub{font-size:10px;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;text-align:center}
+.loading-title{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(–muted)}
+.loading-msg{font-family:‘DM Serif Display’,serif;font-size:20px;color:var(–white);text-align:center;line-height:1.3}
+.loading-sub{font-size:10px;color:var(–accent2);letter-spacing:0.1em;text-transform:uppercase;text-align:center}
 .loading-prog-bar{width:200px;height:3px;background:rgba(245,242,238,0.08);border-radius:2px;overflow:hidden}
-.loading-prog-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;transition:width 0.4s ease;width:0%}
+.loading-prog-fill{height:100%;background:linear-gradient(90deg,var(–accent2),var(–accent));border-radius:2px;transition:width 0.4s ease;width:0%}
 
 /* REVIEW */
 .rv-header{padding:48px 24px 16px;display:flex;align-items:flex-start;justify-content:space-between}
-.rv-title{font-family:'DM Serif Display',serif;font-size:32px;line-height:1}
-.rv-title em{font-style:italic;color:var(--accent2)}
-.rv-meta{font-size:10px;color:var(--muted);letter-spacing:0.06em;margin-top:6px}
+.rv-title{font-family:‘DM Serif Display’,serif;font-size:32px;line-height:1}
+.rv-title em{font-style:italic;color:var(–accent2)}
+.rv-meta{font-size:10px;color:var(–muted);letter-spacing:0.06em;margin-top:6px}
 .rv-stats{padding:0 24px;margin-bottom:20px;display:flex;gap:10px}
-.rv-stat{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
-.rv-stat-num{font-family:'DM Serif Display',serif;font-size:20px;color:var(--white);line-height:1;margin-bottom:3px}
-.rv-stat-num.warn{color:var(--warn)}
-.rv-stat-label{font-size:8px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+.rv-stat{flex:1;background:var(–card);border:1px solid var(–border);border-radius:10px;padding:12px;text-align:center}
+.rv-stat-num{font-family:‘DM Serif Display’,serif;font-size:20px;color:var(–white);line-height:1;margin-bottom:3px}
+.rv-stat-num.warn{color:var(–warn)}
+.rv-stat-label{font-size:8px;color:var(–muted);letter-spacing:0.1em;text-transform:uppercase}
 .phase-group{margin:0 24px 20px}
-.phase-group-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.phase-group-name{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent)}
-.phase-group-meta{font-size:9px;color:var(--muted);letter-spacing:0.06em}
-.track-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px}
+.phase-group-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(–border)}
+.phase-group-name{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(–accent)}
+.phase-group-meta{font-size:9px;color:var(–muted);letter-spacing:0.06em}
+.track-card{background:var(–card);border:1px solid var(–border);border-radius:12px;padding:14px 16px;margin-bottom:8px}
 .track-card.empty{border:1px dashed rgba(245,242,238,0.15);background:transparent;cursor:pointer}
 .track-card.empty:hover{border-color:rgba(232,88,58,0.4);background:rgba(232,88,58,0.04)}
 .track-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-.track-drag{color:var(--muted);font-size:14px;flex-shrink:0}
+.track-drag{color:var(–muted);font-size:14px;flex-shrink:0}
 .track-main{flex:1;min-width:0}
-.track-name{font-size:13px;color:var(--white);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.track-artist{font-size:10px;color:var(--muted);letter-spacing:0.04em}
+.track-name{font-size:13px;color:var(–white);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track-artist{font-size:10px;color:var(–muted);letter-spacing:0.04em}
 .track-acts{display:flex;gap:6px;flex-shrink:0}
-.track-act-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--muted);transition:all 0.15s}
-.track-act-btn:hover{border-color:rgba(245,242,238,0.3);color:var(--white)}
+.track-act-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(–border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(–muted);transition:all 0.15s}
+.track-act-btn:hover{border-color:rgba(245,242,238,0.3);color:var(–white)}
 .track-tags{display:flex;gap:6px;flex-wrap:wrap}
-.tag{font-size:9px;letter-spacing:0.06em;padding:3px 8px;border-radius:4px;background:rgba(245,242,238,0.05);color:var(--muted)}
-.tag.bpm{color:var(--accent2);background:rgba(201,169,110,0.08)}
-.tag.phase{color:var(--muted)}
+.tag{font-size:9px;letter-spacing:0.06em;padding:3px 8px;border-radius:4px;background:rgba(245,242,238,0.05);color:var(–muted)}
+.tag.bpm{color:var(–accent2);background:rgba(201,169,110,0.08)}
+.tag.phase{color:var(–muted)}
 .empty-slot{display:flex;align-items:center;gap:12px;padding:2px 0}
-.empty-slot-icon{font-size:18px;color:var(--muted)}
-.empty-slot-text{font-size:11px;color:var(--muted);letter-spacing:0.06em}
-.empty-slot-hint{font-size:9px;color:var(--accent);letter-spacing:0.08em;margin-top:2px}
+.empty-slot-icon{font-size:18px;color:var(–muted)}
+.empty-slot-text{font-size:11px;color:var(–muted);letter-spacing:0.06em}
+.empty-slot-hint{font-size:9px;color:var(–accent);letter-spacing:0.08em;margin-top:2px}
 .tr-ind{display:flex;align-items:center;gap:8px;padding:4px 0 2px;margin:0 24px}
-.tr-line{flex:1;height:1px;background:var(--border)}
+.tr-line{flex:1;height:1px;background:var(–border)}
 .tr-badge{font-size:9px;letter-spacing:0.08em;padding:3px 8px;border-radius:4px;white-space:nowrap}
-.tr-badge.smooth{color:var(--ok);background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.2)}
-.tr-badge.gap{color:var(--flag);background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.2)}
-.approve-bar{position:sticky;bottom:0;padding:16px 24px 32px;background:linear-gradient(to bottom,transparent,var(--black) 28%)}
-.approve-issues{font-size:10px;color:var(--flag);letter-spacing:0.06em;text-align:center;margin-bottom:10px;display:none}
+.tr-badge.smooth{color:var(–ok);background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.2)}
+.tr-badge.gap{color:var(–flag);background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.2)}
+.approve-bar{position:sticky;bottom:0;padding:16px 24px 32px;background:linear-gradient(to bottom,transparent,var(–black) 28%)}
+.approve-issues{font-size:10px;color:var(–flag);letter-spacing:0.06em;text-align:center;margin-bottom:10px;display:none}
 .approve-issues.show{display:block}
 
 /* SESSION */
 .session-header{padding:48px 24px 20px;display:flex;align-items:flex-start;justify-content:space-between}
-.s-phase-label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
-.s-phase-name{font-family:'DM Serif Display',serif;font-size:32px;color:var(--white);line-height:1}
+.s-phase-label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(–accent);margin-bottom:6px}
+.s-phase-name{font-family:‘DM Serif Display’,serif;font-size:32px;color:var(–white);line-height:1}
 .s-time{text-align:right}
-.s-time-big{font-family:'DM Serif Display',serif;font-size:32px;color:var(--white);line-height:1}
-.s-time-label{font-size:9px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-top:4px}
+.s-time-big{font-family:‘DM Serif Display’,serif;font-size:32px;color:var(–white);line-height:1}
+.s-time-label{font-size:9px;color:var(–muted);letter-spacing:0.15em;text-transform:uppercase;margin-top:4px}
 .tl-wrap{padding:0 24px;margin-bottom:20px}
 .tl-bar{height:4px;background:rgba(245,242,238,0.08);border-radius:2px;overflow:hidden;margin-bottom:8px}
-.tl-progress{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;transition:width 0.5s ease}
+.tl-progress{height:100%;background:linear-gradient(90deg,var(–accent2),var(–accent));border-radius:2px;transition:width 0.5s ease}
 .tl-phases{display:flex;justify-content:space-between}
-.tl-tick{font-size:8px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
-.tl-tick.active{color:var(--accent2)}
-.now-playing{margin:0 24px 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
-.np-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.np-track{font-family:'DM Serif Display',serif;font-size:22px;color:var(--white);line-height:1.1;margin-bottom:4px}
-.np-artist{font-size:11px;color:var(--muted);letter-spacing:0.06em;margin-bottom:12px}
+.tl-tick{font-size:8px;color:var(–muted);letter-spacing:0.08em;text-transform:uppercase}
+.tl-tick.active{color:var(–accent2)}
+.now-playing{margin:0 24px 16px;background:var(–card);border:1px solid var(–border);border-radius:14px;padding:20px}
+.np-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(–muted);margin-bottom:12px}
+.np-track{font-family:‘DM Serif Display’,serif;font-size:22px;color:var(–white);line-height:1.1;margin-bottom:4px}
+.np-artist{font-size:11px;color:var(–muted);letter-spacing:0.06em;margin-bottom:12px}
 .np-meta{display:flex;gap:16px;margin-bottom:14px}
-.np-meta-item{font-size:10px;color:var(--muted);letter-spacing:0.06em}
-.np-meta-item span{color:var(--accent2);font-weight:500}
-.np-link{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(29,185,84,0.1);border:1px solid rgba(29,185,84,0.25);border-radius:8px;font-size:10px;color:var(--ok);letter-spacing:0.08em;text-decoration:none;text-transform:uppercase;cursor:pointer;transition:all 0.15s}
+.np-meta-item{font-size:10px;color:var(–muted);letter-spacing:0.06em}
+.np-meta-item span{color:var(–accent2);font-weight:500}
+.np-link{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(29,185,84,0.1);border:1px solid rgba(29,185,84,0.25);border-radius:8px;font-size:10px;color:var(–ok);letter-spacing:0.08em;text-decoration:none;text-transform:uppercase;cursor:pointer;transition:all 0.15s}
 .np-link:hover{background:rgba(29,185,84,0.18)}
 .pb-controls{margin:0 24px 16px;display:flex;align-items:center;justify-content:center;gap:20px}
-.pb-play{width:64px;height:64px;background:var(--accent);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0;font-size:24px;color:var(--white)}
+.pb-play{width:64px;height:64px;background:var(–accent);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0;font-size:24px;color:var(–white)}
 .pb-play:hover{transform:scale(1.05);box-shadow:0 8px 24px rgba(232,88,58,0.4)}
-.pb-skip{width:44px;height:44px;background:var(--card);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted);transition:all 0.15s}
-.pb-skip:hover{border-color:rgba(245,242,238,0.3);color:var(--white)}
+.pb-skip{width:44px;height:44px;background:var(–card);border:1px solid var(–border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(–muted);transition:all 0.15s}
+.pb-skip:hover{border-color:rgba(245,242,238,0.3);color:var(–white)}
 .ctrl-row{padding:0 24px;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.ctrl-btn{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.15s}
-.ctrl-btn.boost:hover{border-color:var(--accent)}
-.ctrl-btn.drop:hover{border-color:var(--accent2)}
+.ctrl-btn{background:var(–card);border:1px solid var(–border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.15s}
+.ctrl-btn.boost:hover{border-color:var(–accent)}
+.ctrl-btn.drop:hover{border-color:var(–accent2)}
 .ctrl-icon{font-size:20px;margin-bottom:4px}
-.ctrl-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+.ctrl-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(–muted)}
 .closer-locked{margin:0 24px 16px;padding:12px 16px;background:rgba(232,88,58,0.08);border:1px solid rgba(232,88,58,0.2);border-radius:10px;display:flex;align-items:center;gap:10px}
-.closer-locked-text{font-size:10px;color:var(--accent);letter-spacing:0.08em}
+.closer-locked-text{font-size:10px;color:var(–accent);letter-spacing:0.08em}
 .queue-section{padding:0 24px 24px}
-.queue-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.queue-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity 0.15s}
+.queue-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(–muted);margin-bottom:12px}
+.queue-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(–border);cursor:pointer;transition:opacity 0.15s}
 .queue-item:hover{opacity:0.7}
-.queue-num{font-size:10px;color:var(--muted);width:16px;text-align:right;flex-shrink:0}
+.queue-num{font-size:10px;color:var(–muted);width:16px;text-align:right;flex-shrink:0}
 .queue-info{flex:1}
-.queue-track{font-size:12px;color:var(--white);margin-bottom:2px}
-.queue-meta{font-size:10px;color:var(--muted);display:flex;gap:6px}
-.queue-phase{color:var(--accent2)}
-.queue-bpm{font-size:10px;color:var(--accent2);flex-shrink:0}
+.queue-track{font-size:12px;color:var(–white);margin-bottom:2px}
+.queue-meta{font-size:10px;color:var(–muted);display:flex;gap:6px}
+.queue-phase{color:var(–accent2)}
+.queue-bpm{font-size:10px;color:var(–accent2);flex-shrink:0}
 
 /* OPEN IN SPOTIFY BANNER */
 .spotify-open-banner{margin:0 24px 16px;padding:14px 16px;background:rgba(29,185,84,0.08);border:1px solid rgba(29,185,84,0.25);border-radius:12px}
-.spotify-open-title{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ok);margin-bottom:6px}
-.spotify-open-desc{font-size:10px;color:var(--muted);letter-spacing:0.04em;line-height:1.5;margin-bottom:10px}
-.spotify-open-btn{display:block;width:100%;padding:12px;background:var(--ok);border:none;border-radius:8px;color:#000;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;text-align:center;text-decoration:none;transition:opacity 0.15s}
+.spotify-open-title{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(–ok);margin-bottom:6px}
+.spotify-open-desc{font-size:10px;color:var(–muted);letter-spacing:0.04em;line-height:1.5;margin-bottom:10px}
+.spotify-open-btn{display:block;width:100%;padding:12px;background:var(–ok);border:none;border-radius:8px;color:#000;font-family:‘DM Mono’,monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;text-align:center;text-decoration:none;transition:opacity 0.15s}
 .spotify-open-btn:hover{opacity:0.85}
 </style>
+
 </head>
 <body>
 
 <!-- LOADING OVERLAY -->
+
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-spinner"></div>
   <div class="loading-title">AIDJ</div>
@@ -225,6 +228,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="app">
 
   <!-- ══ SETUP VIEW ══ -->
+
   <div class="view active" id="setupView">
     <div class="hdr">
       <div class="hdr-tag">Dance It Out — Zürich</div>
@@ -232,95 +236,99 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="hdr-sub">Session Director / v5.0</div>
     </div>
 
-    <!-- Spotify connection -->
-    <div class="sp-bar" id="spBar" onclick="handleSpotifyClick()">
-      <div class="sp-left">
-        <div class="sp-dot" id="spDot"></div>
-        <div class="sp-text" id="spText">Not connected</div>
-      </div>
-      <div class="sp-action" id="spAction">Connect →</div>
-    </div>
+```
+<!-- Spotify connection -->
+<div class="sp-bar" id="spBar" onclick="handleSpotifyClick()">
+  <div class="sp-left">
+    <div class="sp-dot" id="spDot"></div>
+    <div class="sp-text" id="spText">Not connected</div>
+  </div>
+  <div class="sp-action" id="spAction">Connect →</div>
+</div>
 
-    <!-- Library status -->
-    <div class="lib-card" id="libCard">
-      <div class="lib-header">
-        <div class="lib-title">Your Music Library</div>
-        <div class="lib-action" id="libAction" onclick="scanLibrary()" style="display:none">Rescan</div>
-      </div>
-      <div id="libContent">
-        <div class="lib-empty">Connect Spotify to load your music</div>
-      </div>
-    </div>
+<!-- Library status -->
+<div class="lib-card" id="libCard">
+  <div class="lib-header">
+    <div class="lib-title">Your Music Library</div>
+    <div class="lib-action" id="libAction" onclick="scanLibrary()" style="display:none">Rescan</div>
+  </div>
+  <div id="libContent">
+    <div class="lib-empty">Connect Spotify to load your music</div>
+  </div>
+</div>
 
-    <!-- Duration -->
-    <div class="sec">
-      <div class="sec-label">Session Duration</div>
-      <div class="dur-grid">
-        <div class="dur-btn" onclick="selectDur(45,this)"><span class="dur-n">45</span><span class="dur-u">min</span></div>
-        <div class="dur-btn active" onclick="selectDur(60,this)"><span class="dur-n">60</span><span class="dur-u">min</span></div>
-        <div class="dur-btn" onclick="selectDur(75,this)"><span class="dur-n">75</span><span class="dur-u">min</span></div>
-        <div class="dur-btn" onclick="selectDur(90,this)"><span class="dur-n">90</span><span class="dur-u">min</span></div>
-      </div>
-    </div>
+<!-- Duration -->
+<div class="sec">
+  <div class="sec-label">Session Duration</div>
+  <div class="dur-grid">
+    <div class="dur-btn" onclick="selectDur(45,this)"><span class="dur-n">45</span><span class="dur-u">min</span></div>
+    <div class="dur-btn active" onclick="selectDur(60,this)"><span class="dur-n">60</span><span class="dur-u">min</span></div>
+    <div class="dur-btn" onclick="selectDur(75,this)"><span class="dur-n">75</span><span class="dur-u">min</span></div>
+    <div class="dur-btn" onclick="selectDur(90,this)"><span class="dur-n">90</span><span class="dur-u">min</span></div>
+  </div>
+</div>
 
-    <!-- Energy profile -->
-    <div class="sec">
-      <div class="sec-label">Energy Profile</div>
-      <div class="profile-list">
-        <div class="profile-card active" onclick="selectProfile('steady',this)">
-          <svg class="profile-arc" viewBox="0 0 52 28"><polyline points="2,24 13,18 26,10 39,8 50,12" fill="none" stroke="#e8583a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div class="profile-info"><div class="profile-name">Steady Build</div><div class="profile-desc">Gradual climb, single peak, long landing</div></div>
-          <div class="profile-check"></div>
-        </div>
-        <div class="profile-card" onclick="selectProfile('hard',this)">
-          <svg class="profile-arc" viewBox="0 0 52 28"><polyline points="2,24 8,14 18,6 32,5 40,8 50,18" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div class="profile-info"><div class="profile-name">Hard Peak</div><div class="profile-desc">Fast warmup, sustained peak, sharp comedown</div></div>
-          <div class="profile-check"></div>
-        </div>
-        <div class="profile-card" onclick="selectProfile('double',this)">
-          <svg class="profile-arc" viewBox="0 0 52 28"><polyline points="2,24 10,14 20,7 28,14 36,6 46,10 50,16" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div class="profile-info"><div class="profile-name">Double Peak</div><div class="profile-desc">Two peak moments with a mid-session valley</div></div>
-          <div class="profile-check"></div>
-        </div>
-        <div class="profile-card" onclick="selectProfile('gentle',this)">
-          <svg class="profile-arc" viewBox="0 0 52 28"><polyline points="2,22 14,16 26,12 38,13 50,18" fill="none" stroke="#6b6560" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div class="profile-info"><div class="profile-name">Gentle Flow</div><div class="profile-desc">Moderate ceiling, extended grounding close</div></div>
-          <div class="profile-check"></div>
-        </div>
-      </div>
+<!-- Energy profile -->
+<div class="sec">
+  <div class="sec-label">Energy Profile</div>
+  <div class="profile-list">
+    <div class="profile-card active" onclick="selectProfile('steady',this)">
+      <svg class="profile-arc" viewBox="0 0 52 28"><polyline points="2,24 13,18 26,10 39,8 50,12" fill="none" stroke="#e8583a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="profile-info"><div class="profile-name">Steady Build</div><div class="profile-desc">Gradual climb, single peak, long landing</div></div>
+      <div class="profile-check"></div>
     </div>
+    <div class="profile-card" onclick="selectProfile('hard',this)">
+      <svg class="profile-arc" viewBox="0 0 52 28"><polyline points="2,24 8,14 18,6 32,5 40,8 50,18" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="profile-info"><div class="profile-name">Hard Peak</div><div class="profile-desc">Fast warmup, sustained peak, sharp comedown</div></div>
+      <div class="profile-check"></div>
+    </div>
+    <div class="profile-card" onclick="selectProfile('double',this)">
+      <svg class="profile-arc" viewBox="0 0 52 28"><polyline points="2,24 10,14 20,7 28,14 36,6 46,10 50,16" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="profile-info"><div class="profile-name">Double Peak</div><div class="profile-desc">Two peak moments with a mid-session valley</div></div>
+      <div class="profile-check"></div>
+    </div>
+    <div class="profile-card" onclick="selectProfile('gentle',this)">
+      <svg class="profile-arc" viewBox="0 0 52 28"><polyline points="2,22 14,16 26,12 38,13 50,18" fill="none" stroke="#6b6560" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="profile-info"><div class="profile-name">Gentle Flow</div><div class="profile-desc">Moderate ceiling, extended grounding close</div></div>
+      <div class="profile-check"></div>
+    </div>
+  </div>
+</div>
 
-    <!-- Closer -->
-    <div class="sec">
-      <div class="sec-label">Session Closer</div>
-      <div class="closer-card">
-        <div class="closer-icon">🔒</div>
-        <div class="closer-info"><div class="closer-track">Dancing On My Own</div><div class="closer-artist">Robyn</div></div>
-        <div class="closer-lock">Locked</div>
-      </div>
-    </div>
+<!-- Closer -->
+<div class="sec">
+  <div class="sec-label">Session Closer</div>
+  <div class="closer-card">
+    <div class="closer-icon">🔒</div>
+    <div class="closer-info"><div class="closer-track">Dancing On My Own</div><div class="closer-artist">Robyn</div></div>
+    <div class="closer-lock">Locked</div>
+  </div>
+</div>
 
-    <!-- Arc preview -->
-    <div class="arc-box">
-      <div class="arc-box-label">Session Arc Preview</div>
-      <svg viewBox="0 0 382 60" width="100%" height="60">
-        <defs><linearGradient id="ag" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#c9a96e;stop-opacity:0.6"/><stop offset="50%" style="stop-color:#e8583a;stop-opacity:1"/><stop offset="100%" style="stop-color:#c9a96e;stop-opacity:0.8"/></linearGradient></defs>
-        <polyline id="arcLine" points="0,52 55,40 110,22 165,14 220,16 275,30 330,42 382,50" fill="none" stroke="url(#ag)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div class="phase-pills" id="phasePills">
-        <div class="phase-pill">Arrival</div><div class="phase-pill">Warmup</div><div class="phase-pill">Build</div><div class="phase-pill">Peak</div><div class="phase-pill">Comedown</div><div class="phase-pill">Landing</div><div class="phase-pill">✦ Closer</div>
-      </div>
-    </div>
+<!-- Arc preview -->
+<div class="arc-box">
+  <div class="arc-box-label">Session Arc Preview</div>
+  <svg viewBox="0 0 382 60" width="100%" height="60">
+    <defs><linearGradient id="ag" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#c9a96e;stop-opacity:0.6"/><stop offset="50%" style="stop-color:#e8583a;stop-opacity:1"/><stop offset="100%" style="stop-color:#c9a96e;stop-opacity:0.8"/></linearGradient></defs>
+    <polyline id="arcLine" points="0,52 55,40 110,22 165,14 220,16 275,30 330,42 382,50" fill="none" stroke="url(#ag)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <div class="phase-pills" id="phasePills">
+    <div class="phase-pill">Arrival</div><div class="phase-pill">Warmup</div><div class="phase-pill">Build</div><div class="phase-pill">Peak</div><div class="phase-pill">Comedown</div><div class="phase-pill">Landing</div><div class="phase-pill">✦ Closer</div>
+  </div>
+</div>
 
-    <div class="sec" style="padding-bottom:48px">
-      <button class="btn-primary" id="generateBtn" onclick="generateSession()" disabled>
-        Generate Session
-        <span class="btn-sub" id="generateSub">Connect Spotify and scan library first</span>
-      </button>
-    </div>
+<div class="sec" style="padding-bottom:48px">
+  <button class="btn-primary" id="generateBtn" onclick="generateSession()" disabled>
+    Generate Session
+    <span class="btn-sub" id="generateSub">Connect Spotify and scan library first</span>
+  </button>
+</div>
+```
+
   </div>
 
   <!-- ══ REVIEW VIEW ══ -->
+
   <div class="view" id="reviewView">
     <div class="rv-header">
       <div>
@@ -351,6 +359,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 
   <!-- ══ SESSION VIEW ══ -->
+
   <div class="view" id="sessionView">
     <div class="session-header">
       <div>
@@ -367,47 +376,50 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="tl-phases" id="sPhaseRow"></div>
     </div>
 
-    <!-- Open in Spotify banner -->
-    <div class="spotify-open-banner">
-      <div class="spotify-open-title">▶ Playback via Spotify</div>
-      <div class="spotify-open-desc">Open your session playlist in the Spotify app to play audio through any speaker or device.</div>
-      <a class="spotify-open-btn" id="spotifyPlaylistLink" href="#" target="_blank">Open in Spotify →</a>
-    </div>
+```
+<!-- Open in Spotify banner -->
+<div class="spotify-open-banner">
+  <div class="spotify-open-title">▶ Playback via Spotify</div>
+  <div class="spotify-open-desc">Open your session playlist in the Spotify app to play audio through any speaker or device.</div>
+  <a class="spotify-open-btn" id="spotifyPlaylistLink" href="#" target="_blank">Open in Spotify →</a>
+</div>
 
-    <div class="now-playing">
-      <div class="np-label">Now Playing</div>
-      <div class="np-track" id="sTrack">—</div>
-      <div class="np-artist" id="sArtist">—</div>
-      <div class="np-meta">
-        <div class="np-meta-item">BPM <span id="sBpm">—</span></div>
-        <div class="np-meta-item">Phase <span id="sPhaseShort">—</span></div>
-      </div>
-    </div>
+<div class="now-playing">
+  <div class="np-label">Now Playing</div>
+  <div class="np-track" id="sTrack">—</div>
+  <div class="np-artist" id="sArtist">—</div>
+  <div class="np-meta">
+    <div class="np-meta-item">BPM <span id="sBpm">—</span></div>
+    <div class="np-meta-item">Phase <span id="sPhaseShort">—</span></div>
+  </div>
+</div>
 
-    <div class="pb-controls">
-      <div class="pb-skip" onclick="skipBackward()">⏮</div>
-      <button class="pb-play" id="pbPlay" onclick="togglePlay()">▶</button>
-      <div class="pb-skip" onclick="skipForward()">⏭</div>
-    </div>
+<div class="pb-controls">
+  <div class="pb-skip" onclick="skipBackward()">⏮</div>
+  <button class="pb-play" id="pbPlay" onclick="togglePlay()">▶</button>
+  <div class="pb-skip" onclick="skipForward()">⏭</div>
+</div>
 
-    <div class="ctrl-row">
-      <div class="ctrl-btn drop" onclick="adjustEnergy(-1)"><div class="ctrl-icon">↓</div><div class="ctrl-label" id="dropLabel">Drop Energy</div></div>
-      <div class="ctrl-btn boost" onclick="adjustEnergy(1)"><div class="ctrl-icon">↑</div><div class="ctrl-label" id="boostLabel">Boost Energy</div></div>
-    </div>
+<div class="ctrl-row">
+  <div class="ctrl-btn drop" onclick="adjustEnergy(-1)"><div class="ctrl-icon">↓</div><div class="ctrl-label" id="dropLabel">Drop Energy</div></div>
+  <div class="ctrl-btn boost" onclick="adjustEnergy(1)"><div class="ctrl-icon">↑</div><div class="ctrl-label" id="boostLabel">Boost Energy</div></div>
+</div>
 
-    <div class="closer-locked">
-      <div style="font-size:14px">🔒</div>
-      <div class="closer-locked-text">Dancing On My Own — Robyn · Session Closer Locked</div>
-    </div>
+<div class="closer-locked">
+  <div style="font-size:14px">🔒</div>
+  <div class="closer-locked-text">Dancing On My Own — Robyn · Session Closer Locked</div>
+</div>
 
-    <div class="queue-section">
-      <div class="queue-label">Up Next</div>
-      <div id="queueList"></div>
-    </div>
+<div class="queue-section">
+  <div class="queue-label">Up Next</div>
+  <div id="queueList"></div>
+</div>
 
-    <div style="padding:0 24px 48px">
-      <button class="btn-ghost" onclick="endSession()">End Session</button>
-    </div>
+<div style="padding:0 24px 48px">
+  <button class="btn-ghost" onclick="endSession()">End Session</button>
+</div>
+```
+
   </div>
 
 </div>
@@ -1052,5 +1064,6 @@ async function scanLibrary() {
 
 init();
 </script>
+
 </body>
 </html>
